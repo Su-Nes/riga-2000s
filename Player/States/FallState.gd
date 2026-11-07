@@ -4,14 +4,14 @@ class_name FallState
 
 
 @onready var player_controller: CharacterBody3D = $"../.."
-@onready var camera_pivot_y: Node3D = $"../../CameraHolder/Camera3D"
+@onready var camera_pivot_y: Node3D = $"../../Camera3D"
 @onready var collision_shape_3d: CollisionShape3D = $"../../CollisionShape3D"
 
 @export var FLIGHT_V_MULTIPLIER : float = 20
 @export var AIR_SPEED : float = 4
 @export var AIR_INERTIA : float = 2.5
 
-var direction
+var direction : Vector3
 var flight_timer
 
 	
@@ -29,7 +29,8 @@ func update(delta: float):
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	direction = (camera_pivot_y.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		
-	handle_velocity(delta)
+func physics_update(_delta: float):
+	handle_velocity(_delta)
 	
 func handle_velocity(delta):
 	player_controller.velocity.x = lerp(player_controller.velocity.x, direction.x * AIR_SPEED, delta * AIR_INERTIA)

@@ -7,7 +7,7 @@ class_name IdleState
 @export var CAMERA_DISTANCE : float = 1
 @export var CAMERA_MOVE_LERP : float = .15
 
-@onready var camera_pivot_y: Node3D = $"../../CameraHolder/Camera3D"
+@onready var camera_pivot_y: Node3D = $"../../Camera3D"
 @onready var player_controller: CharacterBody3D = $"../.."
 @onready var walk_state: WalkState = $"../WalkState"
 @onready var collision_shape_3d: CollisionShape3D = $"../../CollisionShape3D"

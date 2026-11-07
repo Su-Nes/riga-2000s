@@ -2,6 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://byq6ar4l674v0" path="res://Player/Scenes/player.tscn" id="1_pgc86"]
 [ext_resource type="Environment" uid="uid://dkrgdkaco5doc" path="res://World/Resources/default_environment.tres" id="2_q6xoh"]
+[ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="3_rvxcl"]
+[ext_resource type="Resource" uid="uid://cptfoggk2ok67" path="res://addons/phantom_camera/examples/resources/tween/player_phantom_camera_3d_tween.tres" id="4_c68pr"]
+[ext_resource type="Script" uid="uid://tfv8jobgqf6c" path="res://Common/Scripts/3D/SmoothCam.gd" id="5_6iwpk"]
+[ext_resource type="Script" uid="uid://b8hhnqsugykly" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="5_i42ak"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_qkran"]
 size = Vector2(100, 100)
@@ -10,6 +14,9 @@ size = Vector2(100, 100)
 size = Vector3(100, 0.36060154, 100)
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_5knja"]
+
+[sub_resource type="Resource" id="Resource_wg1pr"]
+script = ExtResource("5_i42ak")
 
 [node name="Main" type="Node3D" unique_id=1120885741]
 
@@ -33,3 +40,28 @@ camera_attributes = SubResource("CameraAttributesPractical_5knja")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment" unique_id=532962950]
 transform = Transform3D(0.72303593, -0.51885587, 0.45607856, 0, 0.660208, 0.75108284, -0.69081044, -0.5430599, 0.4773541, 0, 0, 0)
 directional_shadow_mode = 0
+
+[node name="PhantomCamera3D" type="Node3D" parent="." unique_id=1892233258 node_paths=PackedStringArray("follow_target", "look_at_target")]
+transform = Transform3D(1, 0, 0, 0, 0.83204836, 0.55469894, 0, -0.55469894, 0.83204836, 0, 3.2187958, 3.3281934)
+top_level = true
+script = ExtResource("3_rvxcl")
+follow_mode = 5
+follow_target = NodePath("../Player")
+look_at_target = NodePath("../CamSmoothTarget")
+tween_resource = ExtResource("4_c68pr")
+tween_on_load = false
+camera_3d_resource = SubResource("Resource_wg1pr")
+follow_offset = Vector3(0, 1, 0)
+follow_damping = true
+follow_distance = 4.0
+dead_zone_width = 0.139
+dead_zone_height = 0.14
+show_viewfinder_in_play = true
+spring_length = 4.0
+look_at_offset = Vector3(0, 1, 0)
+align_transform_with_view = Callable()
+align_position_with_view = Callable()
+
+[node name="CamSmoothTarget" type="Node3D" parent="." unique_id=872647139 node_paths=PackedStringArray("target")]
+script = ExtResource("5_6iwpk")
+target = NodePath("../Player")

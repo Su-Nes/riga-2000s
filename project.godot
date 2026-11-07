@@ -22,11 +22,17 @@ Signals="*uid://dajap7dq57avr"
 SfxManager="*uid://ch6ffl4kjbd76"
 SceneLoader="*uid://bv6bev1scv0kx"
 HitStopManager="*uid://cdpo1ent25v1v"
+DialogueManager="*uid://c3rodes2l3gxb"
+PhantomCameraManager="*uid://duq6jhf6unyis"
 
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [input]
 
@@ -64,6 +70,7 @@ jump={
 [physics]
 
 3d/physics_engine="Jolt Physics"
+common/physics_interpolation=true
 
 [rendering]
 

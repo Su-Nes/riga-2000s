@@ -8,7 +8,6 @@ var update = false
 var gt_prev : Transform3D
 var gt_current : Transform3D
 
-
 func _ready():
 	top_level = true
 	if target == null:
