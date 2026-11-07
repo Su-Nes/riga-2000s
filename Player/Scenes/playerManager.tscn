@@ -5,9 +5,11 @@
 [ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="3_cjqf8"]
 [ext_resource type="Resource" uid="uid://cptfoggk2ok67" path="res://addons/phantom_camera/examples/resources/tween/player_phantom_camera_3d_tween.tres" id="4_1axp1"]
 [ext_resource type="Script" uid="uid://b8hhnqsugykly" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="5_3y0ad"]
+[ext_resource type="Script" uid="uid://tfv8jobgqf6c" path="res://Common/Scripts/3D/SmoothCam.gd" id="6_snbxt"]
 
 [sub_resource type="Resource" id="Resource_bwi8i"]
 script = ExtResource("5_3y0ad")
+fov = 50.0
 
 [node name="PlayerManager" type="Node3D" unique_id=255738835]
 
@@ -15,10 +17,10 @@ script = ExtResource("5_3y0ad")
 
 [node name="MainCamera3D" type="Camera3D" parent="." unique_id=956742171]
 unique_name_in_owner = true
-physics_interpolation_mode = 1
-transform = Transform3D(0.99995, 0, 0, 0, 0.79324, 0.608671, 0, -0.608675, 0.793235, 0, 3.934684, 3.17294)
+transform = Transform3D(0.99995, 0, 0, 0, 0.49992868, 0.8658965, 0, -0.86590195, 0.49992552, 0, 7.463586, 3.809702)
 top_level = true
 current = true
+fov = 50.0
 
 [node name="PhantomCameraHost" type="Node" parent="MainCamera3D" unique_id=596857796]
 process_priority = 300
@@ -26,20 +28,24 @@ process_physics_priority = 300
 script = ExtResource("2_snbxt")
 
 [node name="PlayerPhantomCamera3D" type="Node3D" parent="." unique_id=1918278008 node_paths=PackedStringArray("follow_target")]
-transform = Transform3D(0.99995, 0, 0, 0, 0.79324, 0.608671, 0, -0.608675, 0.793235, 0, 3.934684, 3.17294)
+transform = Transform3D(0.99995, 0, 0, 0, 0.49992868, 0.8658965, 0, -0.86590195, 0.49992552, 0, 7.463586, 3.809702)
 top_level = true
 script = ExtResource("3_cjqf8")
 follow_mode = 5
-follow_target = NodePath("../Player")
+follow_target = NodePath("../CameraSmoother")
 tween_resource = ExtResource("4_1axp1")
 tween_on_load = false
 camera_3d_resource = SubResource("Resource_bwi8i")
-follow_offset = Vector3(0, 1.5, 0)
+follow_offset = Vector3(0, 4, 1.81)
 follow_damping = true
+follow_damping_value = Vector3(0.05, 0.05, 0.05)
 follow_distance = 4.0
-dead_zone_width = 0.139
-dead_zone_height = 0.14
-show_viewfinder_in_play = true
+dead_zone_width = 0.15
+dead_zone_height = 0.1
 spring_length = 4.0
 align_transform_with_view = Callable()
 align_position_with_view = Callable()
+
+[node name="CameraSmoother" type="Marker3D" parent="." unique_id=1012675877 node_paths=PackedStringArray("target")]
+script = ExtResource("6_snbxt")
+target = NodePath("../Player")
