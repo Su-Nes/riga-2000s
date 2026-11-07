@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://fkenrl3ajsq4"]
+
+[ext_resource type="PackedScene" uid="uid://byq6ar4l674v0" path="res://Player/Scenes/player.tscn" id="1_pgc86"]
+[ext_resource type="Environment" uid="uid://dkrgdkaco5doc" path="res://World/Resources/default_environment.tres" id="2_q6xoh"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qkran"]
+size = Vector2(100, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tdrox"]
+size = Vector3(100, 0.36060154, 100)
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_5knja"]
+
+[node name="Main" type="Node3D" unique_id=1120885741]
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=55822175]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=936556938]
+mesh = SubResource("PlaneMesh_qkran")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1643111]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17980078, 0)
+shape = SubResource("BoxShape3D_tdrox")
+
+[node name="Player" parent="." unique_id=780301318 instance=ExtResource("1_pgc86")]
+
+[node name="Environment" type="Node" parent="." unique_id=1882723958]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=876715319]
+environment = ExtResource("2_q6xoh")
+camera_attributes = SubResource("CameraAttributesPractical_5knja")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment" unique_id=532962950]
+transform = Transform3D(0.72303593, -0.51885587, 0.45607856, 0, 0.660208, 0.75108284, -0.69081044, -0.5430599, 0.4773541, 0, 0, 0)
+directional_shadow_mode = 0

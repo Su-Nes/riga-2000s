@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://byq6ar4l674v0"]
+
+[ext_resource type="Script" uid="uid://dm2dd5qgbqoj2" path="res://Common/Scripts/StateMachine/StateMachine.gd" id="1_bw35f"]
+[ext_resource type="Script" uid="uid://tfv8jobgqf6c" path="res://Common/Scripts/3D/SmoothCam.gd" id="1_xwb2w"]
+[ext_resource type="Script" uid="uid://bfp8s5h7h8h8b" path="res://Player/States/IdleState.gd" id="2_xwb2w"]
+[ext_resource type="Script" uid="uid://6g2omeyjv1dy" path="res://Player/States/WalkState.gd" id="3_qo0kk"]
+[ext_resource type="Script" uid="uid://d0sw41xekmnru" path="res://Player/States/FallState.gd" id="4_2hb64"]
+[ext_resource type="Script" uid="uid://d162dvdb0wuqu" path="res://Player/States/PauseState.gd" id="5_qsune"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tdrox"]
+radius = 0.3
+height = 1.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_qkran"]
+radius = 0.3
+height = 1.5
+
+[node name="Player" type="CharacterBody3D" unique_id=780301318]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=201674470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("CapsuleShape3D_tdrox")
+
+[node name="Animator" type="AnimationPlayer" parent="." unique_id=754794503]
+
+[node name="MeshHolder" type="Marker3D" parent="." unique_id=1648618266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+
+[node name="Mesh" type="Node3D" parent="." unique_id=1874565760 node_paths=PackedStringArray("target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+script = ExtResource("1_xwb2w")
+target = NodePath("../MeshHolder")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh" unique_id=645475496]
+mesh = SubResource("CapsuleMesh_qkran")
+
+[node name="StateMachine" type="Node" parent="." unique_id=385712120 node_paths=PackedStringArray("initial_state", "ANIMATOR")]
+script = ExtResource("1_bw35f")
+IS_PLAYER = true
+initial_state = NodePath("IdleState")
+ANIMATOR = NodePath("../Animator")
+metadata/_custom_type_script = "uid://dm2dd5qgbqoj2"
+
+[node name="IdleState" type="Node" parent="StateMachine" unique_id=1058042734]
+script = ExtResource("2_xwb2w")
+metadata/_custom_type_script = "uid://bfp8s5h7h8h8b"
+
+[node name="WalkState" type="Node" parent="StateMachine" unique_id=1076414395]
+script = ExtResource("3_qo0kk")
+metadata/_custom_type_script = "uid://6g2omeyjv1dy"
+
+[node name="FallState" type="Node" parent="StateMachine" unique_id=974416074]
+script = ExtResource("4_2hb64")
+metadata/_custom_type_script = "uid://d0sw41xekmnru"
+
+[node name="PauseState" type="Node" parent="StateMachine" unique_id=1745204048]
+script = ExtResource("5_qsune")
+metadata/_custom_type_script = "uid://d162dvdb0wuqu"
+
+[node name="CameraHolder" type="Node3D" parent="." unique_id=686132983 node_paths=PackedStringArray("target")]
+script = ExtResource("1_xwb2w")
+target = NodePath("..")
+
+[node name="Camera3D" type="Camera3D" parent="CameraHolder" unique_id=602558993]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 5, 5)
