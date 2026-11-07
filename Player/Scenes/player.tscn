@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://6g2omeyjv1dy" path="res://Player/States/WalkState.gd" id="3_qo0kk"]
 [ext_resource type="Script" uid="uid://d0sw41xekmnru" path="res://Player/States/FallState.gd" id="4_2hb64"]
 [ext_resource type="Script" uid="uid://d162dvdb0wuqu" path="res://Player/States/PauseState.gd" id="5_qsune"]
-[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_qo0kk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tdrox"]
 radius = 0.3
@@ -18,12 +17,6 @@ height = 1.5
 
 [node name="Player" type="CharacterBody3D" unique_id=780301318]
 collision_layer = 2
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=602558993]
-transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 5, 5)
-
-[node name="PhantomCameraHost" type="Node" parent="Camera3D" unique_id=334367783]
-script = ExtResource("7_qo0kk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=201674470]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
@@ -49,16 +42,20 @@ initial_state = NodePath("IdleState")
 ANIMATOR = NodePath("../Animator")
 metadata/_custom_type_script = "uid://dm2dd5qgbqoj2"
 
-[node name="IdleState" type="Node" parent="StateMachine" unique_id=1058042734]
+[node name="IdleState" type="Node" parent="StateMachine" unique_id=1058042734 node_paths=PackedStringArray("CAMERA")]
 script = ExtResource("2_xwb2w")
+CAMERA = NodePath("")
 metadata/_custom_type_script = "uid://bfp8s5h7h8h8b"
 
-[node name="WalkState" type="Node" parent="StateMachine" unique_id=1076414395]
+[node name="WalkState" type="Node" parent="StateMachine" unique_id=1076414395 node_paths=PackedStringArray("CAMERA")]
 script = ExtResource("3_qo0kk")
+CAMERA = NodePath("")
+MOVE_SPEED = 5.0
 metadata/_custom_type_script = "uid://6g2omeyjv1dy"
 
-[node name="FallState" type="Node" parent="StateMachine" unique_id=974416074]
+[node name="FallState" type="Node" parent="StateMachine" unique_id=974416074 node_paths=PackedStringArray("CAMERA")]
 script = ExtResource("4_2hb64")
+CAMERA = NodePath("")
 metadata/_custom_type_script = "uid://d0sw41xekmnru"
 
 [node name="PauseState" type="Node" parent="StateMachine" unique_id=1745204048]

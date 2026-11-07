@@ -4,19 +4,22 @@ class_name FallState
 
 
 @onready var player_controller: CharacterBody3D = $"../.."
-@onready var camera_pivot_y: Node3D = $"../../Camera3D"
 @onready var collision_shape_3d: CollisionShape3D = $"../../CollisionShape3D"
 
 @export var FLIGHT_V_MULTIPLIER : float = 20
 @export var AIR_SPEED : float = 4
 @export var AIR_INERTIA : float = 2.5
 
+var camera: Camera3D
 var direction : Vector3
 var flight_timer
 
 	
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+func _ready() -> void:
+	camera = owner.get_node("%MainCamera3D")
 
 func update(delta: float):	
 	# Add the gravity.
@@ -27,7 +30,7 @@ func update(delta: float):
 		
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
-	direction = (camera_pivot_y.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	direction = (camera.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		
 func physics_update(_delta: float):
 	handle_velocity(_delta)

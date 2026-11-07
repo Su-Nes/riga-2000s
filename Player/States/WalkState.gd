@@ -8,11 +8,14 @@ class_name WalkState
 @export var MOMENTUM_DECAY = 1.0
 
 @onready var player_controller: CharacterBody3D = $"../.."
-@onready var camera_pivot_y: Node3D = $"../../Camera3D"
 @onready var collision_shape_3d: CollisionShape3D = $"../../CollisionShape3D"
 
+var camera: Camera3D
 var direction
 var velocity
+
+func _ready() -> void:
+	camera = owner.get_node("%MainCamera3D")
 
 #func enter() -> void:
 	#state_machine.ANIMATOR.play("Walk")
@@ -29,16 +32,13 @@ func update(_delta: float):
 		
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
-	direction = (camera_pivot_y.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	direction = (camera.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	# Switch to idle when no movement direction is held.
 	if direction.length() <= 0.0:
 		state_machine.change_state("idlestate")
 		
-func physics_update(_delta: float):
-	handle_velocity(_delta)
-
-func handle_velocity(delta):
+func physics_update(delta: float):
 	player_controller.velocity.x = lerp(player_controller.velocity.x, direction.x * MOVE_SPEED, delta * GROUND_INERTIA)
 	player_controller.velocity.z = lerp(player_controller.velocity.z, direction.z * MOVE_SPEED, delta * GROUND_INERTIA)
 	

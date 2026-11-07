@@ -3,14 +3,11 @@ extends State
 class_name IdleState
 
 
-@export var CAMERA_POSITION : Vector3 = Vector3(.3, .6, 0)
-@export var CAMERA_DISTANCE : float = 1
-@export var CAMERA_MOVE_LERP : float = .15
-
-@onready var camera_pivot_y: Node3D = $"../../Camera3D"
 @onready var player_controller: CharacterBody3D = $"../.."
 @onready var walk_state: WalkState = $"../WalkState"
 @onready var collision_shape_3d: CollisionShape3D = $"../../CollisionShape3D"
+
+var camera: Camera3D
 
 var direction
 
@@ -20,6 +17,9 @@ var direction
 	
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+func _ready() -> void:
+	camera = owner.get_node("%MainCamera3D")
+
 func physics_update(delta):
 	# Switch to fall state if player controller is not on ground.
 	if !player_controller.is_on_floor():
@@ -27,7 +27,7 @@ func physics_update(delta):
 		
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
-	direction = (camera_pivot_y.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	direction = (camera.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	if direction.length() > 0.0:
 		state_machine.change_state("walkstate")
