@@ -5,13 +5,12 @@ class_name WalkState
 
 @export var MOVE_SPEED: float = 10
 @export var GROUND_INERTIA = 14.0
-@export var MOMENTUM_DECAY = 1.0
 
 @onready var player_controller: CharacterBody3D = $"../.."
 @onready var collision_shape_3d: CollisionShape3D = $"../../CollisionShape3D"
 
 var camera: Camera3D
-var direction
+var direction: Vector3
 var velocity
 
 func _ready() -> void:
@@ -30,10 +29,14 @@ func update(_delta: float):
 		state_machine.change_state("jumpstate")
 		return
 		
+	# Switch to run state
+	if Input.is_action_just_pressed("run"):
+		state_machine.change_state("runstate")
+	
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
-	direction = (camera.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
+	direction = ( Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, camera.rotation.y)).normalized()
+
 	# Switch to idle when no movement direction is held.
 	if direction.length() <= 0.0:
 		state_machine.change_state("idlestate")
@@ -41,5 +44,7 @@ func update(_delta: float):
 func physics_update(delta: float):
 	player_controller.velocity.x = lerp(player_controller.velocity.x, direction.x * MOVE_SPEED, delta * GROUND_INERTIA)
 	player_controller.velocity.z = lerp(player_controller.velocity.z, direction.z * MOVE_SPEED, delta * GROUND_INERTIA)
+	
+	player_controller.transform = player_controller.transform.looking_at(player_controller.position + player_controller.velocity * 99)
 	
 	player_controller.move_and_slide()

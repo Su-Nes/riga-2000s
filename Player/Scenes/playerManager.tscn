@@ -17,7 +17,7 @@ fov = 50.0
 
 [node name="MainCamera3D" type="Camera3D" parent="." unique_id=956742171]
 unique_name_in_owner = true
-transform = Transform3D(0.99995, 0, 0, 0, 0.49992868, 0.8658965, 0, -0.86590195, 0.49992552, 0, 7.463586, 3.809702)
+transform = Transform3D(0.99995, 0, 0, 0, 0.49992868, 0.8658966, 0, -0.86590195, 0.49992558, 0, 7.4635863, 3.8097024)
 top_level = true
 current = true
 fov = 50.0
@@ -28,7 +28,7 @@ process_physics_priority = 300
 script = ExtResource("2_snbxt")
 
 [node name="PlayerPhantomCamera3D" type="Node3D" parent="." unique_id=1918278008 node_paths=PackedStringArray("follow_target")]
-transform = Transform3D(0.99995, 0, 0, 0, 0.49992868, 0.8658965, 0, -0.86590195, 0.49992552, 0, 7.463586, 3.809702)
+transform = Transform3D(0.99995, 0, 0, 0, 0.49992868, 0.8658966, 0, -0.86590195, 0.49992558, 0, 7.4635863, 3.8097024)
 top_level = true
 script = ExtResource("3_cjqf8")
 follow_mode = 5

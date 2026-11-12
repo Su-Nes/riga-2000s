@@ -6,6 +6,9 @@
 [ext_resource type="Script" uid="uid://6g2omeyjv1dy" path="res://Player/States/WalkState.gd" id="3_qo0kk"]
 [ext_resource type="Script" uid="uid://d0sw41xekmnru" path="res://Player/States/FallState.gd" id="4_2hb64"]
 [ext_resource type="Script" uid="uid://d162dvdb0wuqu" path="res://Player/States/PauseState.gd" id="5_qsune"]
+[ext_resource type="Script" uid="uid://bvbs5o3slpy60" path="res://Player/States/RunState.gd" id="5_vov0p"]
+[ext_resource type="Script" uid="uid://bgh8wwbceyasb" path="res://Player/Scripts/interaction.gd" id="7_qo0kk"]
+[ext_resource type="Texture2D" uid="uid://dakh7v8woot3" path="res://Player/UI/Sprites/Hand Cursor Smaller.png" id="8_2hb64"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tdrox"]
 radius = 0.3
@@ -14,6 +17,12 @@ height = 1.5
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_qkran"]
 radius = 0.3
 height = 1.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_6md3q"]
+size = Vector3(0.75, 0.25, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qkran"]
+size = Vector3(0.75, 1.5, 1.5)
 
 [node name="Player" type="CharacterBody3D" unique_id=780301318]
 collision_layer = 2
@@ -35,6 +44,10 @@ target = NodePath("../MeshHolder")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh" unique_id=645475496]
 mesh = SubResource("CapsuleMesh_qkran")
 
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mesh" unique_id=436169905]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3620181, -0.25)
+mesh = SubResource("BoxMesh_6md3q")
+
 [node name="StateMachine" type="Node" parent="." unique_id=385712120 node_paths=PackedStringArray("initial_state", "ANIMATOR")]
 script = ExtResource("1_bw35f")
 IS_PLAYER = true
@@ -42,22 +55,56 @@ initial_state = NodePath("IdleState")
 ANIMATOR = NodePath("../Animator")
 metadata/_custom_type_script = "uid://dm2dd5qgbqoj2"
 
-[node name="IdleState" type="Node" parent="StateMachine" unique_id=1058042734 node_paths=PackedStringArray("CAMERA")]
+[node name="IdleState" type="Node" parent="StateMachine" unique_id=1058042734]
 script = ExtResource("2_xwb2w")
-CAMERA = NodePath("")
 metadata/_custom_type_script = "uid://bfp8s5h7h8h8b"
 
-[node name="WalkState" type="Node" parent="StateMachine" unique_id=1076414395 node_paths=PackedStringArray("CAMERA")]
+[node name="WalkState" type="Node" parent="StateMachine" unique_id=1076414395]
 script = ExtResource("3_qo0kk")
-CAMERA = NodePath("")
-MOVE_SPEED = 5.0
+MOVE_SPEED = 2.0
+GROUND_INERTIA = 6.0
 metadata/_custom_type_script = "uid://6g2omeyjv1dy"
 
-[node name="FallState" type="Node" parent="StateMachine" unique_id=974416074 node_paths=PackedStringArray("CAMERA")]
+[node name="RunState" type="Node" parent="StateMachine" unique_id=342662338]
+script = ExtResource("5_vov0p")
+MOVE_SPEED = 4.0
+GROUND_INERTIA = 3.5
+metadata/_custom_type_script = "uid://bvbs5o3slpy60"
+
+[node name="FallState" type="Node" parent="StateMachine" unique_id=974416074]
 script = ExtResource("4_2hb64")
-CAMERA = NodePath("")
+AIR_SPEED = 0.0
+AIR_INERTIA = 1.0
 metadata/_custom_type_script = "uid://d0sw41xekmnru"
 
 [node name="PauseState" type="Node" parent="StateMachine" unique_id=1745204048]
 script = ExtResource("5_qsune")
 metadata/_custom_type_script = "uid://d162dvdb0wuqu"
+
+[node name="Interaction" type="ShapeCast3D" parent="." unique_id=1870011767]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -1)
+shape = SubResource("BoxShape3D_qkran")
+target_position = Vector3(0, 0, 0)
+collision_mask = 4
+collide_with_areas = true
+script = ExtResource("7_qo0kk")
+
+[node name="InteractionIcon" type="Control" parent="Interaction" unique_id=830325558]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Interaction/InteractionIcon" unique_id=141200831]
+layout_mode = 1
+offset_left = -97.955
+offset_top = -96.0
+offset_right = 97.955
+offset_bottom = 96.0
+scale = Vector2(0.5, 0.5)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("8_2hb64")

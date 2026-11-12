@@ -6,19 +6,6 @@ class_name Interactable
 @export var ITEM_NAME : String
 @export var CONST_PATH : String
 
-@export var MESH : MeshInstance3D
-@export var COLLIDER : CollisionShape3D
-@export var RIGIDBODY : RigidBody3D
-
-
-func _ready() -> void:
-	if MESH:
-		return
-	
-	for n in get_children():
-		if n is MeshInstance3D:
-			MESH = n
-			break
 
 func on_focus():
 	pass

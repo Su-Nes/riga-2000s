@@ -6,7 +6,6 @@ class_name FallState
 @onready var player_controller: CharacterBody3D = $"../.."
 @onready var collision_shape_3d: CollisionShape3D = $"../../CollisionShape3D"
 
-@export var FLIGHT_V_MULTIPLIER : float = 20
 @export var AIR_SPEED : float = 4
 @export var AIR_INERTIA : float = 2.5
 
@@ -21,7 +20,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _ready() -> void:
 	camera = owner.get_node("%MainCamera3D")
 
-func update(delta: float):	
+func update(delta: float):
 	# Add the gravity.
 	if !player_controller.is_on_floor():
 		player_controller.velocity.y -= gravity * delta
