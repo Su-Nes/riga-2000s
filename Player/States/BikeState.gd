@@ -9,42 +9,27 @@ class_name BikeState
 @onready var player_controller: CharacterBody3D = $"../.."
 @onready var collision_shape_3d: CollisionShape3D = $"../../CollisionShape3D"
 
-var camera: Camera3D
-var direction: Vector3
-var velocity
+var origin_parent: Node3D
+var bike: BikeController
 
 func _ready() -> void:
-	camera = owner.get_node("%MainCamera3D")
+	origin_parent = player_controller.get_parent_node_3d()
 
-#func enter() -> void:
+func enter() -> void:
+	bike = $"../../Interaction".current_interactable.owner
+	bike.bike_enabled = true
+	
+	player_controller.reparent(bike.get_node("PlayerPivot")) 
+	player_controller.transform = Transform3D.IDENTITY
 	#state_machine.ANIMATOR.play("Walk")
 	
 func update(_delta: float):
-	# Switch to fall state if player controller is not on ground.
-	if !player_controller.is_on_floor():
-		state_machine.change_state("fallstate")
-	
-	# Switch to jump state
-	if Input.is_action_just_pressed("jump"):
-		state_machine.change_state("jumpstate")
-		return
-		
-	# Switch to run state
-	if Input.is_action_just_pressed("run"):
-		state_machine.change_state("runstate")
-	
-	# Get the input direction and handle the movement/deceleration.
-	var input_dir = Input.get_vector("left", "right", "forward", "backward")
-	direction = ( Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, camera.rotation.y)).normalized()
-
-	# Switch to idle when no movement direction is held.
-	if direction.length() <= 0.0:
+	if Input.is_action_just_pressed("interact"):
 		state_machine.change_state("idlestate")
 		
-func physics_update(delta: float):
-	player_controller.velocity.x = lerp(player_controller.velocity.x, direction.x * MOVE_SPEED, delta * GROUND_INERTIA)
-	player_controller.velocity.z = lerp(player_controller.velocity.z, direction.z * MOVE_SPEED, delta * GROUND_INERTIA)
+func exit():
+	player_controller.reparent(origin_parent)
+	player_controller.global_position += bike.global_basis.x * 2
+	player_controller.velocity = Vector3.ZERO
 	
-	player_controller.transform = player_controller.transform.looking_at(player_controller.position + player_controller.velocity * 99)
-	
-	player_controller.move_and_slide()
+	bike.bike_enabled = false

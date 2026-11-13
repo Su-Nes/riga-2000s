@@ -45,6 +45,7 @@ func physics_update(delta: float):
 	player_controller.velocity.x = lerp(player_controller.velocity.x, direction.x * MOVE_SPEED, delta * GROUND_INERTIA)
 	player_controller.velocity.z = lerp(player_controller.velocity.z, direction.z * MOVE_SPEED, delta * GROUND_INERTIA)
 	
-	player_controller.transform = player_controller.transform.looking_at(player_controller.position + player_controller.velocity * 99)
-	
 	player_controller.move_and_slide()
+	
+	if direction.length() > 0:
+		player_controller.transform = player_controller.transform.looking_at(player_controller.position + direction * 99)

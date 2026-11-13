@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://d162dvdb0wuqu" path="res://Player/States/PauseState.gd" id="5_qsune"]
 [ext_resource type="Script" uid="uid://bvbs5o3slpy60" path="res://Player/States/RunState.gd" id="5_vov0p"]
 [ext_resource type="Script" uid="uid://bgh8wwbceyasb" path="res://Player/Scripts/interaction.gd" id="7_qo0kk"]
+[ext_resource type="Script" uid="uid://bpv6qebqvdr66" path="res://Player/States/BikeState.gd" id="7_vov0p"]
 [ext_resource type="Texture2D" uid="uid://dakh7v8woot3" path="res://Player/UI/Sprites/Hand Cursor Smaller.png" id="8_2hb64"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tdrox"]
@@ -76,6 +77,10 @@ script = ExtResource("4_2hb64")
 AIR_SPEED = 0.0
 AIR_INERTIA = 1.0
 metadata/_custom_type_script = "uid://d0sw41xekmnru"
+
+[node name="BikeState" type="Node" parent="StateMachine" unique_id=789801170]
+script = ExtResource("7_vov0p")
+metadata/_custom_type_script = "uid://bpv6qebqvdr66"
 
 [node name="PauseState" type="Node" parent="StateMachine" unique_id=1745204048]
 script = ExtResource("5_qsune")
